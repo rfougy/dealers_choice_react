@@ -6,20 +6,23 @@ const {
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const path = require('path');
+const path = require("path");
 
-//*Middlware...
-app.use('/dist', express.static(path.join(__dirname, 'dist')));
+//***Middlware...
+//Dist Middleware...
+app.use("/dist", express.static(path.join(__dirname, "dist")));
+//Assets Middleware...
+app.use("/assets", express.static(path.join(__dirname, "assets")));
 //Logging Middleware...
 app.use(morgan("dev"));
 //Body Parsing Middleware...
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//*Requests...
+//***Requests...
 //Go to Home Page...
 app.get("/", (req, res, next) => {
-  res.send(File(path.join(__dirname, "index.html")));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 //Retrieve all Pokemon Data...
 app.get("/pokemon", async (req, res, next) => {
@@ -90,7 +93,7 @@ app.use(async (err, req, res, next) => {
 //Syncing Data to DB, listening on PORT...
 const init = async () => {
   try {
-    await db.sync();
+    // await db.sync();
     await syncAndSeed();
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () =>

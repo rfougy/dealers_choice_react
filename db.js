@@ -11,8 +11,8 @@ const Pokemon = db.define("pokemon", {
     allowNull: false,
   },
   element: {
-    type: ENUM("Electric", "Fire", "Water", "Earth", "Unknown"),
-    defaultValue: "Unknown",
+    type: ENUM("electric", "fire", "water", "earth", "unknown"),
+    defaultValue: "unknown",
     allowNull: false,
   },
 });
@@ -31,12 +31,12 @@ Owner.hasMany(Pokemon, { as: "pokemon", foreignKey: "ownerId" });
 //Inserting Data into Tables...
 const syncAndSeed = async () => {
   await db.sync({ force: true });
-  const [pikachu, squirtle, bulbasaur, charizard, ash, brock, misty] =
+  const [pikachu, charizard, bulbasaur, squirtle, ash, brock, misty] =
     await Promise.all([
-      Pokemon.create({ name: "pikachu", type: "electric" }),
-      Pokemon.create({ name: "charizard", type: "fire" }),
-      Pokemon.create({ name: "bulbasaur", type: "earth" }),
-      Pokemon.create({ name: "squirtle", type: "water" }),
+      Pokemon.create({ name: "pikachu", element: "electric" }),
+      Pokemon.create({ name: "charizard", element: "fire" }),
+      Pokemon.create({ name: "bulbasaur", element: "earth" }),
+      Pokemon.create({ name: "squirtle", element: "water" }),
 
       Owner.create({ name: "ash" }),
       Owner.create({ name: "brock" }),

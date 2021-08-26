@@ -1,0 +1,1 @@
+- only /api requests are necessary since react is referring to these specific places
