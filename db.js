@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const { STRING, UUID, UUIDV4 } = Sequelize;
+const { STRING, ENUM, UUID, UUIDV4 } = Sequelize;
 const db = new Sequelize(
   process.env.DATABASE_URL || "postgres://localhost/pokemon_db"
 );
@@ -23,7 +23,6 @@ const Owner = db.define("owner", {
     allowNull: false,
   },
 });
-t;
 
 //Creating DB Relationships...
 Pokemon.belongsTo(Owner, { as: "owner" });
@@ -57,7 +56,7 @@ const syncAndSeed = async () => {
   ]);
 };
 
-modules.export = {
+module.exports = {
   db,
   syncAndSeed,
   models: {

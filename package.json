@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/rfougy/dealers_choice_react/issues"
   },
-  "homepage": "https://github.com/rfougy/dealers_choice_react#readme"
+  "homepage": "https://github.com/rfougy/dealers_choice_react#readme",
+  "dependencies": {
+    "morgan": "^1.10.0"
+  }
 }

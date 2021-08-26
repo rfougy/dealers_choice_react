@@ -5,12 +5,19 @@ const {
 } = require("./db");
 const express = require("express");
 const app = express();
+const morgan = require("morgan");
 
-//Requests...
+//*Middlware...
+//Logging Middleware...
+app.use(morgan("dev"));
+//Body Parsing Middleware...
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//*Requests...
 //Retrieve all Pokemon Data
 app.get("/pokemon", async (req, res, next) => {
   try {
-
   } catch (err) {
     next(err);
   }
@@ -26,7 +33,6 @@ app.get("/pokemon/:id", async (req, res, next) => {
 //Add New Pokemon...
 app.post("/pokemon", async (req, res, next) => {
   try {
-    await Pokemon.create({name: , element: })
   } catch (err) {
     next(err);
   }
@@ -34,7 +40,6 @@ app.post("/pokemon", async (req, res, next) => {
 //Delete Pokemon...
 app.delete("/pokemon", async (req, res, next) => {
   try {
-
   } catch (err) {
     next(err);
   }
@@ -73,7 +78,9 @@ app.use(async (err, req, res, next) => {
 const init = async () => {
   try {
     await db.sync();
-    server.listen(PORT, () =>
+    await syncAndSeed();
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () =>
       console.log(`
 
           Listening on port ${PORT}
