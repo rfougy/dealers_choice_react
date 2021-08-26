@@ -6,8 +6,10 @@ const {
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const path = require('path');
 
 //*Middlware...
+app.use('/dist', express.static(path.join(__dirname, 'dist')));
 //Logging Middleware...
 app.use(morgan("dev"));
 //Body Parsing Middleware...
@@ -15,7 +17,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //*Requests...
-//Retrieve all Pokemon Data
+//Go to Home Page...
+app.get("/", (req, res, next) => {
+  res.send(File(path.join(__dirname, "index.html")));
+});
+//Retrieve all Pokemon Data...
 app.get("/pokemon", async (req, res, next) => {
   try {
   } catch (err) {
@@ -44,26 +50,33 @@ app.delete("/pokemon", async (req, res, next) => {
     next(err);
   }
 });
-
 //API Requests...
 app.get("/api/pokemon", async (req, res, next) => {
   try {
-    res.send(await Pokemon.findAll());
+    // res.send(await Pokemon.findAll());
+    const pokemonList = await Pokemon.findAll();
+    res.json(pokemonList);
   } catch (err) {
     next(err);
   }
 });
-
+app.get("/api/pokemon/:pokemonId", async (req, res, next) => {
+  try {
+    const selectedPokemon = await Pokemon.findByPk(req.params.pokemonId);
+    res.json(selectedPokemon);
+  } catch (err) {
+    next(err);
+  }
+});
 app.get("/api/owners", async (req, res, next) => {
   try {
-    res.send(
-      await Owner.findAll({
-        include: {
-          model: Pokemon,
-          as: "pokemon",
-        },
-      })
-    );
+    const ownerList = await Owner.findAll({
+      include: {
+        model: Pokemon,
+        as: "pokemon",
+      },
+    });
+    res.json(ownerList);
   } catch (err) {
     next(err);
   }
@@ -82,11 +95,8 @@ const init = async () => {
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () =>
       console.log(`
-
           Listening on port ${PORT}
-
           http://localhost:${PORT}/
-
       `)
     );
   } catch (err) {
