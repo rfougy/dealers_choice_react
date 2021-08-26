@@ -22,43 +22,46 @@ const Owner = db.define("owner", {
     type: STRING,
     allowNull: false,
   },
-});t
+});
+t;
 
 //Creating DB Relationships...
 Pokemon.belongsTo(Owner, { as: "owner" });
 Owner.hasMany(Pokemon, { as: "pokemon", foreignKey: "ownerId" });
 
 //Inserting Data into Tables...
-const syncAndSeed = async() => {
+const syncAndSeed = async () => {
   await db.sync({ force: true });
-  const [Pikachu, Squirtle, Bulbasaur, Charizard, Ash Ketchum, Brock, Misty] = await Promise.all([
-    Pokemon.create({name: 'Pikachu', type: 'Electric'}),
-    Pokemon.create({name: 'Squirtle', type: 'Water'}),
-    Pokemon.create({name: 'Bulbasaur', type: 'Earth'}),
-    Pokemon.create({name: 'Charizard', type: 'Fire'}),
+  const [pikachu, squirtle, bulbasaur, charizard, ash, brock, misty] =
+    await Promise.all([
+      Pokemon.create({ name: "pikachu", type: "electric" }),
+      Pokemon.create({ name: "charizard", type: "fire" }),
+      Pokemon.create({ name: "bulbasaur", type: "earth" }),
+      Pokemon.create({ name: "squirtle", type: "water" }),
 
-    Owner.create({name: 'Ash Ketchum'}),
-    Owner.create({name: 'Brock'}),
-    Owner.create({name: 'Misty'}),
-  ])
-}
-
-//Syncing Data to DB, listening on PORT...
-const init = async () => {
-  try {
-    await db.sync();
-    server.listen(PORT, () =>
-      console.log(`
-
-          Listening on port ${PORT}
-
-          http://localhost:${PORT}/
-
-      `)
-    );
-  } catch (err) {
-    console.log(`There was an error starting up!`, err);
-  }
+      Owner.create({ name: "ash" }),
+      Owner.create({ name: "brock" }),
+      Owner.create({ name: "misty" }),
+    ]);
+  //Creating Relationships Between Specific Data...
+  pikachu.ownerId = ash.id;
+  charizard.ownerId = ash.id;
+  bulbasaur.ownerId = brock.id;
+  squirtle.ownerId = misty.id;
+  //Saving Relationships Declared Above...
+  await Promise.all([
+    await pikachu.save(),
+    await charizard.save(),
+    await bulbasaur.save(),
+    await squirtle.save(),
+  ]);
 };
 
-init();
+modules.export = {
+  db,
+  syncAndSeed,
+  models: {
+    Pokemon,
+    Owner,
+  },
+};
