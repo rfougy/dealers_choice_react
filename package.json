@@ -1,0 +1,24 @@
+{
+  "name": "dealers_choice_react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build": "webpack",
+    "build:dev": "npm run build -- --watch --mode=development",
+    "start:dev": "npm run build:dev & nodemon server --ignore dist/ --ignore src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rfougy/dealers_choice_react.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rfougy/dealers_choice_react/issues"
+  },
+  "homepage": "https://github.com/rfougy/dealers_choice_react#readme"
+}
