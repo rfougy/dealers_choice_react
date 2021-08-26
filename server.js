@@ -20,43 +20,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //***Requests...
-//Go to Home Page...
 app.get("/", (req, res, next) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
-//Retrieve all Pokemon Data...
-app.get("/pokemon", async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-});
-//Retrieve Specific Pokemon...
-app.get("/pokemon/:id", async (req, res, next) => {
-  try {
-    const id = req.params.id;
-  } catch (err) {
-    next(err);
-  }
-});
-//Add New Pokemon...
-app.post("/pokemon", async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-});
-//Delete Pokemon...
-app.delete("/pokemon", async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-});
-//API Requests...
 app.get("/api/pokemon", async (req, res, next) => {
   try {
-    // res.send(await Pokemon.findAll());
     const pokemonList = await Pokemon.findAll();
     res.json(pokemonList);
   } catch (err) {
